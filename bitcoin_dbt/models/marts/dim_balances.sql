@@ -31,7 +31,7 @@ with
     SELECT
       `hash` AS transaction_id
     FROM `bigquery-public-data.crypto_bitcoin_cash.transactions`
-    WHERE inputs[offset(0)].is_coinbase IS true
+    WHERE t.is_coinbase IS true
   ),
 
   -- Get a list of all addresses involved in a coinbase transaction
