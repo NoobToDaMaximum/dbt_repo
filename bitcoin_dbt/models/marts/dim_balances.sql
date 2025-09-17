@@ -13,8 +13,8 @@ WITH
       outputs.value AS `value`,
       t.transaction_id AS transaction_id,
       t.is_coinbase
-    FROM {{ REF('stg_transactions') }} AS t,
-    UNNEST(t.outputs) AS outputs
+    FROM {{ ref('stg_transactions') }} AS t,
+    unnest(t.outputs) AS outputs
 
     UNION ALL
 
@@ -24,8 +24,8 @@ WITH
       -inputs.value AS `value`,
       t.transaction_id AS transaction_id,
       t.is_coinbase
-    FROM {{ REF('stg_transactions') }} AS t,
-    UNNEST(t.inputs) AS inputs
+    FROM {{ ref('stg_transactions') }} AS t,
+    unnest(t.inputs) AS inputs
   ),
 
   -- Final balance calculation, excluding coinbase-related addresses
