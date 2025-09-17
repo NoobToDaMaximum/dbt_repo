@@ -9,4 +9,4 @@ SELECT
     inputs,
     outputs,
 FROM `bigquery-public-data.crypto_bitcoin_cash.transactions`
-WHERE block_timestamp >= timestamp_sub(current_timestamp(), interval 3 MONTH)
+where block_timestamp >= timestamp_sub(cast(current_timestamp() as datetime), interval 3 month)
