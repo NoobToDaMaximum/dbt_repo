@@ -29,8 +29,8 @@ with
   -- Get a list of all transactions ids involved in a coinbase transaction
   coinbase_transactions AS (
     SELECT
-      transaction_id
-    FROM {{ ref('stg_transactions') }}
+      `hash` AS transaction_id
+    FROM `bigquery-public-data.crypto_bitcoin_cash.transactions`
     WHERE inputs[offset(0)].is_coinbase IS true
   ),
 
