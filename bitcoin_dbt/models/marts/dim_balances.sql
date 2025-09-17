@@ -36,7 +36,7 @@ WITH
     FROM all_addresses_and_values
     WHERE NOT is_coinbase
     GROUP BY `address`
-  ),
+  )
 
 SELECT
   `address`,
