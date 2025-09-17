@@ -1,0 +1,48 @@
+name: dbt-ci-cd
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  dbt_run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Install dbt and adapter
+        run: |
+          pip install dbt-bigquery
+
+      - name: Create credentials file
+        run: |
+          echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > ./service-account-key.json
+        shell: bash
+
+      - name: Create profiles.yml
+        run: |
+          mkdir -p ~/.dbt/
+          echo 'bitcoin_dbt:
+            target: dev
+            outputs:
+              dev:
+                type: bigquery
+                method: service-account
+                project: "coding-interview-terraform"
+                dataset: "staging"
+                threads: 4
+                keyfile: "./service-account-key.json"' > ~/.dbt/profiles.yml
+
+      - name: Run dbt models
+        run: dbt run
+        working-directory: ./bitcoin_dbt

@@ -1,5 +1,0 @@
-dbt_packages/
-logs/
-profiles.yml
-target/
-*.json
