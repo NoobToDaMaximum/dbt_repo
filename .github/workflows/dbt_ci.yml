@@ -41,7 +41,8 @@ jobs:
                 project: "coding-interview-terraform"
                 dataset: "staging"
                 threads: 4
-                keyfile: "./service-account-key.json"' > ~/.dbt/profiles.yml
+                keyfile: "${{ github.workspace }}/service-account-key.json"' > ~/.dbt/profiles.yml
 
       - name: Run dbt models
         run: dbt run
+        working-directory: ./bitcoin_dbt
