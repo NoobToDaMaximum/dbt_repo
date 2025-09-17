@@ -31,7 +31,7 @@ WITH
   -- Final balance calculation, excluding coinbase-related addresses
   final_balances AS (
     SELECT
-      `address` AS,
+      `address`
       SUM(`value`) AS current_balance
     FROM all_addresses_and_values
     WHERE NOT is_coinbase
