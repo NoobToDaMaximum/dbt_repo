@@ -2,13 +2,12 @@
   materialized='table'
 ) }}
 
-select
-    `hash` as transaction_id,
+SELECT
+    `hash` AS transaction_id,
     block_hash,
     block_timestamp,
+    is_coinbase,
     inputs,
-    outputs,
-    -- Add the coinbase flag to the staging table
-    inputs[offset(0)].is_coinbase as is_coinbase_related
-from `bigquery-public-data.crypto_bitcoin_cash.transactions`
-where block_timestamp >= cast(timestamp_sub(cast(current_timestamp() as datetime), interval 3 month) as timestamp)
+    outputs
+FROM `bigquery-public-data.crypto_bitcoin_cash.transactions`
+WHERE block_timestamp >= CAST(TIMESTAMP_SUB(CAST(current_timestamp() AS DATETIME), INTERVAL 3 MONTH) AS TIMESTAMP)
