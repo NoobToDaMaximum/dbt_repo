@@ -11,7 +11,8 @@ WITH
     SELECT
       unnested_addresses AS `address`,
       outputs.value AS `value`,
-      t.transaction_id AS transaction_id
+      t.transaction_id AS transaction_id,
+      t.is_coinbase
     FROM {{ ref('stg_transactions') }} AS t,
     UNNEST(t.outputs) AS outputs,
     UNNEST(outputs.addresses) AS unnested_addresses
@@ -22,7 +23,8 @@ WITH
     SELECT
       unnested_addresses AS `address`,
       -inputs.value AS `value`,
-      t.transaction_id AS transaction_id
+      t.transaction_id AS transaction_id,
+      t.iscoinbase
     FROM {{ ref('stg_transactions') }} AS t,
     UNNEST(t.inputs) AS inputs,
     UNNEST(inputs.addresses) AS unnested_addresses
