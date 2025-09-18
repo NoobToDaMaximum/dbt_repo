@@ -42,6 +42,7 @@ jobs:
                 threads: 4
                 keyfile: "${{ github.workspace }}/service-account-key.json"' > ~/.dbt/profiles.yml
                 schema: staging' > ~/.dbt/profiles.yml
+        shell: bash
 
       - name: Run dbt models
         run: dbt run
