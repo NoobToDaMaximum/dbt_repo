@@ -41,6 +41,7 @@ jobs:
                 project: "coding-interview-terraform"
                 threads: 4
                 keyfile: "${{ github.workspace }}/service-account-key.json"' > ~/.dbt/profiles.yml
+                schema: staging' > ~/.dbt/profiles.yml
 
       - name: Run dbt models
         run: dbt run
