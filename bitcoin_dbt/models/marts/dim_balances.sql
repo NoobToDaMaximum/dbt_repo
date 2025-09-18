@@ -24,7 +24,7 @@ WITH
       unnested_addresses AS `address`,
       -inputs.value AS `value`,
       t.transaction_id AS transaction_id,
-      t.iscoinbase
+      t.is_coinbase
     FROM {{ ref('stg_transactions') }} AS t,
     UNNEST(t.inputs) AS inputs,
     UNNEST(inputs.addresses) AS unnested_addresses
