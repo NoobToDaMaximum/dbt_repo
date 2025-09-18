@@ -39,7 +39,6 @@ jobs:
                 type: bigquery
                 method: service-account
                 project: "coding-interview-terraform"
-                dataset: "staging"
                 threads: 4
                 keyfile: "${{ github.workspace }}/service-account-key.json"' > ~/.dbt/profiles.yml
 
