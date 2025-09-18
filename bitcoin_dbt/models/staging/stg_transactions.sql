@@ -14,7 +14,7 @@ select
     block_timestamp,
     inputs,
     outputs,
-    is_coinbase as is_coinbase_related
+    is_coinbase
 from `bigquery-public-data.crypto_bitcoin_cash.transactions`
 where block_timestamp >= (
   select timestamp_sub(latest_timestamp, interval 3 * 30 day)
