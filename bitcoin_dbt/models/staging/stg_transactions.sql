@@ -2,12 +2,21 @@
   materialized='table'
 ) }}
 
-SELECT
-    `hash` AS transaction_id,
+with max_block_timestamp as (
+  select
+    max(block_timestamp) as latest_timestamp
+  from `bigquery-public-data.crypto_bitcoin_cash.transactions`
+)
+
+select
+    `hash` as transaction_id,
     block_hash,
     block_timestamp,
-    is_coinbase,
     inputs,
-    outputs
-FROM `bigquery-public-data.crypto_bitcoin_cash.transactions`
-WHERE block_timestamp >= CAST(TIMESTAMP_SUB(CAST(current_timestamp() AS DATETIME), INTERVAL 3 MONTH) AS TIMESTAMP)
+    outputs,
+    is_coinbase as is_coinbase_related
+from `bigquery-public-data.crypto_bitcoin_cash.transactions`
+where block_timestamp >= (
+  select timestamp_sub(latest_timestamp, interval 3 * 30 day)
+  from max_block_timestamp
+)
