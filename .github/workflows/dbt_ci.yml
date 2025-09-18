@@ -40,9 +40,8 @@ jobs:
                 method: service-account
                 project: "coding-interview-terraform"
                 threads: 4
-                keyfile: "${{ github.workspace }}/service-account-key.json"' > ~/.dbt/profiles.yml
+                keyfile: "${{ github.workspace }}/service-account-key.json"
                 schema: staging' > ~/.dbt/profiles.yml
-        shell: bash
 
       - name: Run dbt models
         run: dbt run
