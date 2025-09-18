@@ -28,29 +28,12 @@ WITH
     UNNEST(inputs.addresses) AS unnested_addresses
   ),
 
-  -- CTE to get a list of all transactions involved in a coinbase transaction
-  coinbase_transactions AS (
-    SELECT
-      `hash` AS transaction_id
-    FROM `bigquery-public-data.crypto_bitcoin_cash.transactions`
-    WHERE is_coinbase IS TRUE
-  ),
-
-  -- CTE to get a list of all addresses involved in a coinbase transaction
-  coinbase_addresses AS (
-    SELECT DISTINCT
-      address
-    FROM all_addresses_and_values
-    WHERE transaction_id IN (SELECT transaction_id FROM coinbase_transactions)
-  ),
-
-  -- Final balance calculation, excluding coinbase-related addresses
   final_balances AS (
     SELECT
       `address`,
       SUM(`value`) AS current_balance
     FROM all_addresses_and_values
-    WHERE `address` NOT IN (SELECT `address` FROM coinbase_addresses)
+    WHERE NOT is_coinbase
     GROUP BY `address`
   )
 
