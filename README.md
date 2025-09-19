@@ -14,7 +14,7 @@ The core of this project focuses on:
 
 Before you can run this dbt project, ensure you have the following installed:
 
-- **Python**: Version 3.8 or higher.
+- **Python**: Version 3.9 or higher
 - **dbt-core**: The dbt command-line tool.
 - **dbt-bigquery**: The BigQuery adapter for dbt.
 - **Google Cloud SDK**: To manage authentication with your GCP account.
@@ -26,8 +26,8 @@ Follow these steps to set up and run the dbt project:
 1.  **Clone the Repository**:
 
     ```bash
-    git clone [https://github.com/your-username/your-dbt-repo.git](https://github.com/your-username/your-dbt-repo.git)
-    cd your-dbt-repo
+    git clone https://github.com/NoobToDaMaximum/dbt_repo.git
+    cd dbt_repo
     ```
 
 2.  **Install dbt Dependencies**:
