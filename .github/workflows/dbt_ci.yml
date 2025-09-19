@@ -1,5 +1,9 @@
+# This workflow is named 'dbt-ci-cd' and runs on pull requests and pushes to the main branch.
 name: dbt-ci-cd
 
+# Specifies the events that trigger the workflow.
+# It runs when a pull request is opened or updated on the 'main' branch,
+# or when a push is made directly to the 'main' branch.
 on:
   pull_request:
     branches:
@@ -10,26 +14,37 @@ on:
 
 jobs:
   dbt_run:
+    # Specifies the type of runner (virtual machine) to run the job on.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
+        # The 'actions/checkout' action clones the repository's code onto the runner,
+        # making it available for subsequent steps.
         uses: actions/checkout@v2
 
       - name: Set up Python
+        # The 'actions/setup-python' action installs a specific version of Python
+        # needed to run the dbt CLI.
         uses: actions/setup-python@v2
         with:
           python-version: "3.9"
 
       - name: Install dbt and adapter
+        # Installs the dbt CLI and the BigQuery adapter, which allows dbt
+        # to connect to and interact with BigQuery.
         run: |
           pip install dbt-bigquery
 
       - name: Create credentials file
+        # This step retrieves the GCP service account key from a GitHub secret
+        # and saves it to a file for dbt to use for authentication.
         run: |
           echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > ./service-account-key.json
         shell: bash
 
       - name: Create profiles.yml
+        # This step creates the dbt profiles.yml file with the correct BigQuery connection settings,
+        # using the service account key and project details.
         run: |
           mkdir -p ~/.dbt/
           echo 'bitcoin_dbt:
@@ -44,5 +59,9 @@ jobs:
                 schema: staging' > ~/.dbt/profiles.yml
 
       - name: Run dbt models
+        # This command executes the dbt models in the correct order,
+        # creating the tables in the BigQuery datasets.
         run: dbt run
+        # Specifies the working directory for the dbt command, as the workflow is
+        # triggered from the repository's root but the dbt project is in a subdirectory.
         working-directory: ./bitcoin_dbt

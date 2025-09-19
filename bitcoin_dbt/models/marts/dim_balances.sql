@@ -4,8 +4,9 @@
   target_schema='data_mart'
 ) }}
 
+-- This CTE unnests the 'inputs' and 'outputs' arrays and combines them into a single table.
+-- Input values are negated to represent a decrease in balance.
 WITH
-  -- CTE to extract and combine all addresses and their values from both inputs and outputs
   all_addresses_and_values AS (
     -- Extract values from outputs
     SELECT
@@ -19,7 +20,7 @@ WITH
 
     UNION ALL
 
-    -- Extract values from inputs (treated as negative values for balance calculation)
+    -- Extract values from inputs
     SELECT
       unnested_addresses AS `address`,
       -inputs.value AS `value`,
@@ -30,6 +31,7 @@ WITH
     UNNEST(inputs.addresses) AS unnested_addresses
   ),
 
+  -- This CTE calculates the final balance for each address.
   final_balances AS (
     SELECT
       `address`,
@@ -39,6 +41,7 @@ WITH
     GROUP BY `address`
   )
 
+--This final select statement retrieves the address and calculated balance.
 SELECT
   `address`,
   current_balance

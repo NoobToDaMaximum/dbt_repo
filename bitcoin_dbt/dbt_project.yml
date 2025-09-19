@@ -27,6 +27,10 @@ clean-targets: # directories to be removed by `dbt clean`
 # In this example config, we tell dbt to build all models in the example/
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
+
+# This section configures the materialization and schema for all models.
+# It tells dbt to place models in the 'staging' directory into a 'staging' dataset,
+# and models in the 'marts' directory into a 'data_mart' dataset.
 models:
   bitcoin_dbt:
     staging:
